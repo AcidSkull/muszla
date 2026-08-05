@@ -6,6 +6,8 @@
 #include <sys/wait.h>
 #include <sys/ioctl.h>
 
+#include "main.h"
+
 #define MAX_LINE 1024
 #define MAX_ARGS 128
 

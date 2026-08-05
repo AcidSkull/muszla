@@ -1,7 +1,7 @@
 CC = gcc
 TARGET = muszla
 
-SRCS = $(wildcard *.c)
+SRCS = $(wildcard Src/*.c)
 OBJS = $(SRCS:.c=.o)
 
 all: $(TARGET)
