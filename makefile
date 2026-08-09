@@ -14,6 +14,8 @@ SRC_OBJ = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC))
 TEST_OBJ = $(patsubst $(TEST_DIR)/%.c,$(BUILD_DIR)/%.o,$(TEST))
 TEST_BINS = $(patsubst $(TEST_DIR)/%.c,$(BUILD_DIR)/%,$(TEST))
 
+TESTABLE_OBJ = $(filter-out $(BUILD_DIR)/main.o, $(SRC_OBJ))
+
 .PHONY: all clean test
 
 all: $(TARGET)
@@ -22,7 +24,7 @@ $(TARGET): $(SRC_OBJ)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-$(BUILD_DIR)/%: $(BUILD_DIR)/%.o $(SRC_OBJ)
+$(BUILD_DIR)/%: $(BUILD_DIR)/%.o $(TESTABLE_OBJ)
 	@mkdir -p $(dir $@)
 	$(CC) $^ -o $@ $(LDFLAGS)
 
@@ -46,4 +48,4 @@ test: $(TEST_BINS)
 
 
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR) $(TARGET)
