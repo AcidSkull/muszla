@@ -7,7 +7,12 @@ typedef enum {
     TOKEN_WORD,
     TOKEN_PIPE,
     TOKEN_REDIRECT_IN,
-    TOKEN_REDIRECT_OUT
+    TOKEN_REDIRECT_OUT,
+    TOKEN_LOGICAL_OR,
+    TOKEN_LOGICAL_AND,
+    TOKEN_HERE_DOCUMENT,
+    TOKEN_REDIRECT_OUT_APPEND,
+    TOKEN_SEND_TO_BACKGROUND
 } TokenType;
 
 typedef struct {
@@ -23,5 +28,7 @@ typedef struct Command{
     bool append_output;
     struct command *next;
 } Command;
+
+Token* analize(char *input, int *token_count_ptr);
 
 #endif

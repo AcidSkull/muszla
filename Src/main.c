@@ -10,6 +10,7 @@
 
 #define MAX_LINE 1024
 #define MAX_ARGS 128
+#define MAX_TOKENS 1024
 
 void print_shell_prompt(){
     struct winsize w;
@@ -35,49 +36,23 @@ void get_input(char *input){
     input[strlen(input) - 1] = '\0';
 }
 
-void parse_input(char *input, char **args){
-    int i = 0;
-    args[i] = strtok(input, " ");
-
-    while(args[i] != NULL && i < MAX_ARGS - 1){
-        i++;
-        args[i] = strtok(NULL, " ");
-    }
-
-    args[i] = NULL;
-}
-
-void execute_command(char **args){
-    pid_t pid = fork();
-    
-    switch (pid)
-    {
-        case -1:
-            perror("fork");
-            exit(EXIT_FAILURE);
-        case 0:
-            if (execvp(args[0], args) < 0) {
-                perror(args[0]);
-            }
-            exit(EXIT_SUCCESS);
-        default:
-            int status;
-            do {
-                waitpid(pid, &status, WUNTRACED);
-            } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-    }
-}
 
 int main(void){
     char user_input[MAX_LINE];
     char *args[MAX_ARGS];
+    int token_count = 0;
+    Token *tokens = malloc(sizeof(Token) * MAX_TOKENS);
 
     while(1) {
         print_shell_prompt();
         get_input(user_input);
-        parse_input(user_input, args);
-        execute_command(args);
+        tokens = analize(user_input, &token_count);
+
+        for(int i = 0; i < token_count; i++){
+            printf("%d -> %s\n", tokens[i].type, tokens[i].value);
+        }
     }
 
+    free(tokens);
     return 0;
 }
