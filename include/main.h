@@ -23,19 +23,21 @@ typedef struct {
 typedef struct AST AST;
 typedef struct Redirection Redirection;
 
+typedef enum{
+    REDIR_IN,
+    REDIR_OUT,
+    REDIR_APPEND
+} RedirType;
+
 struct Redirection{
-    enum{
-        REDIR_IN,
-        REDIR_OUT,
-        REDIR_APPEND
-    } type;
+    RedirType type;
     char* filename;
     Redirection* next;
 };
 
 struct AST{
     enum{
-        AST_ARGS,
+        AST_CMD,
         AST_PIPE,
         AST_LOGIC_OP,
     } tag;
@@ -58,7 +60,7 @@ struct AST{
             } op;
             AST *left, *right;
         } logic;
-    };
+    } data;
 };
 
 Token* analize(char *input, int *token_count_ptr);
