@@ -64,6 +64,6 @@ struct AST{
 };
 
 Token* analize(char *input, int *token_count_ptr);
-AST* create_AST(Token *tokens);
+AST* create_ast(Token *tokens);
 
 #endif

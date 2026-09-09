@@ -41,18 +41,15 @@ int main(void){
     char user_input[MAX_LINE];
     char *args[MAX_ARGS];
     int token_count = 0;
-    Token *tokens = malloc(sizeof(Token) * MAX_TOKENS);
 
     while(1) {
         print_shell_prompt();
         get_input(user_input);
-        tokens = analize(user_input, &token_count);
+        Token *tokens = analize(user_input, &token_count);
+        AST *ast_tree = create_ast(tokens);
 
-        for(int i = 0; i < token_count; i++){
-            printf("%d -> %s\n", tokens[i].type, tokens[i].value);
-        }
+        free(tokens);
     }
 
-    free(tokens);
     return 0;
 }
