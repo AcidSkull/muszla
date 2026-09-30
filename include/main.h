@@ -12,7 +12,8 @@ typedef enum {
     TOKEN_LOGICAL_AND,
     TOKEN_HERE_DOCUMENT,
     TOKEN_REDIRECT_OUT_APPEND,
-    TOKEN_SEND_TO_BACKGROUND
+    TOKEN_SEND_TO_BACKGROUND,
+    TOKEN_EOF
 } TokenType;
 
 typedef struct {
@@ -64,6 +65,7 @@ struct AST{
 };
 
 Token* analize(char *input, int *token_count_ptr);
-AST* create_ast(Token *tokens);
+AST* parse(Token *tokens);
+void free_ast(AST* node);
 
 #endif

@@ -28,7 +28,7 @@ Token* analize(char *input, int *token_count_ptr){
     bool in_quotes = false;
     char quote_char = '\0';
 
-    Token* tokens = malloc(sizeof(Token) * (len + 1));
+    Token* tokens = malloc(sizeof(Token) * (len + 2));
     int token_count = 0;
     
     while(right <= len && left <= right){
@@ -125,6 +125,8 @@ Token* analize(char *input, int *token_count_ptr){
             left = right;
         }
     }
+
+    add_token(tokens, &token_count, "", TOKEN_EOF);
 
     *token_count_ptr = token_count;
     return tokens;

@@ -36,19 +36,34 @@ void get_input(char *input){
     input[strlen(input) - 1] = '\0';
 }
 
+void free_tokens(Token *tokens, int count) {
+    if (!tokens) return;
+    for (int i = 0; i < count; i++) {
+        if (tokens[i].value != NULL) {
+            free(tokens[i].value);
+        }
+    }
+    free(tokens);
+}
 
 int main(void){
     char user_input[MAX_LINE];
-    char *args[MAX_ARGS];
     int token_count = 0;
 
     while(1) {
         print_shell_prompt();
         get_input(user_input);
-        Token *tokens = analize(user_input, &token_count);
-        AST *ast_tree = create_ast(tokens);
 
-        free(tokens);
+        if(user_input[0] == '\0') continue;
+
+        token_count = 0;
+        Token *tokens = analize(user_input, &token_count);
+        if(!tokens) continue;;
+
+        AST *ast_tree = parse(tokens);
+
+        free_tokens(tokens, token_count);
+        free_ast(ast_tree);
     }
 
     return 0;
