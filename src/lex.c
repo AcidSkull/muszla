@@ -21,6 +21,24 @@ void add_token(Token* tokens, int *index, char* value, TokenType type){
     (*index)++;
 }
 
+void strip_quotes(char *str) {
+    int src = 0, dst = 0;
+    bool in_squote = false, in_dquote = false;
+
+    while (str[src] != '\0') {
+        if (str[src] == '\'' && !in_dquote) {
+            in_squote = !in_squote;
+            src++;
+        } else if (str[src] == '"' && !in_squote) {
+            in_dquote = !in_dquote;
+            src++;
+        } else {
+            str[dst++] = str[src++];
+        }
+    }
+    str[dst] = '\0';
+}
+
 Token* analize(char *input, int *token_count_ptr){
     int left = 0, right = 0;
     int len = strlen(input);
@@ -59,6 +77,7 @@ Token* analize(char *input, int *token_count_ptr){
                     sub_string[len_sub] = '\0';
 
                     if(strlen(sub_string) > 0 && sub_string[0] != ' '){
+                        strip_quotes(sub_string);
                         add_token(tokens, &token_count, sub_string, TOKEN_WORD);
                     }
 
