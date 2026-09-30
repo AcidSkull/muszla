@@ -1,0 +1,1 @@
+**muszla** is hobby shell project with basic functionality and little of junk. To compile run make in project root.
