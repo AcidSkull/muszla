@@ -62,6 +62,10 @@ int main(void){
 
         AST *ast_tree = parse(tokens);
 
+        if(ast_tree != NULL){
+            execute(ast_tree);
+        }
+
         free_tokens(tokens, token_count);
         free_ast(ast_tree);
     }

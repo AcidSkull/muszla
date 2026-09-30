@@ -67,5 +67,6 @@ struct AST{
 Token* analize(char *input, int *token_count_ptr);
 AST* parse(Token *tokens);
 void free_ast(AST* node);
+int execute(AST* ast);
 
 #endif
